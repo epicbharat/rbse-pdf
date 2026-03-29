@@ -57,11 +57,17 @@ module.exports = async function handler(req, res) {
 
     const page = await browser.newPage();
 
-    // Set content — PDF HTML is self-contained (no external fonts/images)
+    // Set content — fires as soon as DOM is ready, not waiting for fonts
     await page.setContent(html, {
       waitUntil: "domcontentloaded",
       timeout: 15000,
     });
+
+    // Wait for web fonts (Crimson Pro) with a 3s cap — never hangs
+    await Promise.race([
+      page.evaluate("document.fonts.ready"),
+      new Promise(function(resolve) { setTimeout(resolve, 3000); }),
+    ]);
 
     // Generate PDF
     const pdfData = await page.pdf({
