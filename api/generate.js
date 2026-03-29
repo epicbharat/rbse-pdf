@@ -63,11 +63,8 @@ module.exports = async function handler(req, res) {
       timeout: 15000,
     });
 
-    // Wait for web fonts (Crimson Pro) with a 3s cap — never hangs
-    await Promise.race([
-      page.evaluate("document.fonts.ready"),
-      new Promise(function(resolve) { setTimeout(resolve, 3000); }),
-    ]);
+    // Fonts are embedded as base64 data URIs — no network wait needed
+    await page.evaluate("document.fonts.ready");
 
     // Generate PDF
     const pdfData = await page.pdf({
