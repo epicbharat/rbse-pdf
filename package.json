@@ -1,0 +1,14 @@
+{
+  "name": "rbse-pdf-api",
+  "version": "1.0.0",
+  "description": "Serverless Puppeteer PDF generator for RBSE Result Explorer",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@sparticuz/chromium": "^143.0.4",
+    "puppeteer-core": "^24.40.0"
+  }
+}
